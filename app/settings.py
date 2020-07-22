@@ -48,6 +48,12 @@ ROBOTSTXT_OBEY = True
 #    'app.middlewares.AppSpiderMiddleware': 543,
 #}
 
+# Spider middleware to avoid requesting pages that have been already scraped before, even if it happened in a previous execution
+SPIDER_MIDDLEWARES = {
+    'scrapy_deltafetch.DeltaFetch': 100,
+}
+DELTAFETCH_ENABLED = True
+
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
