@@ -12,8 +12,8 @@ class QuotesSpider(scrapy.Spider):
         for quote in response.css('article'):
             item = {
                 'media__title': quote.css('a::text').extract_first(),
-                'link': quote.css('a::attr(href)').extract_first(),
-                'date': quote.css('span::attr(title)').extract_first(),
+                'media__link': quote.css('a::attr(href)').extract_first(),
+                'media__date': quote.css('span::attr(title)').extract_first(),
             }
             yield item
         # follow pagination link
