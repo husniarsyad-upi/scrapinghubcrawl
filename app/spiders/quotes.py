@@ -4,8 +4,8 @@ import scrapy
 
 class QuotesSpider(scrapy.Spider):
     name = "quotes"
-    allowed_domains = ["news.detik.com"]
-    start_urls = ['http://news.detik.com']
+    allowed_domains = ["news.detik.com/indeks"]
+    start_urls = ['https://news.detik.com/indeks']
 
     def parse(self, response):
         self.log('I just visited: ' + response.url)
