@@ -4,7 +4,7 @@ import scrapy
 
 class QuotesSpider(scrapy.Spider):
     name = "quotes"
-    allowed_domains = ["news.detik.com/indeks"]
+    allowed_domains = ['news.detik.com']
     start_urls = ['https://news.detik.com/indeks']
 
     def parse(self, response):
@@ -17,7 +17,7 @@ class QuotesSpider(scrapy.Spider):
             }
             yield item
         # follow pagination link
-        next_page_url = response.xpath("//a[contains(text(), 'Next')]/@href").get()
+        next_page_url = response.xpath("//a[contains(text(), 'Next')]/@href").extract_first()
         if next_page_url:
             next_page_url = response.urljoin(next_page_url)
             yield scrapy.Request(url=next_page_url, callback=self.parse)
