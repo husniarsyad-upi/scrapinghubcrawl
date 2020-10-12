@@ -13,7 +13,7 @@ class QuotesSpider(scrapy.Spider):
             item = {
                 'media__title': quote.css('div.media__text > h3.media__title > a::text').extract_first(),
                 'media__link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
-                'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
+                'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first(),
             }
             yield item
         # follow pagination link
