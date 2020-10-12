@@ -6,7 +6,6 @@ class QuotesSpider(scrapy.Spider):
     name = "quotes"
     allowed_domains = ['news.detik.com']
     start_urls = ['https://news.detik.com/indeks']
-    valuex = 0
 
     def parse(self, response):
         self.log('I just visited: ' + response.url)
@@ -20,13 +19,5 @@ class QuotesSpider(scrapy.Spider):
         # follow pagination link
         next_page_url = response.xpath("//a[contains(text(),'Next')]/@href").extract_first()
         if next_page_url:
-            valuex = valuex + 1
             next_page_url = response.urljoin(next_page_url)
             yield scrapy.Request(url=next_page_url, callback=self.parse)
-        else:
-            item = {
-                'media__title': valuex,
-                'media__link': 'done',
-                'media__date': 'done'
-            }
-            yield item
