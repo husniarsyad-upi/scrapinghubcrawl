@@ -23,10 +23,3 @@ class QuotesSpider(scrapy.Spider):
             valuex = valuex + 1
             next_page_url = response.urljoin(next_page_url)
             yield scrapy.Request(url=next_page_url, callback=self.parse)
-        else
-            item = {
-                'media__title': valuex,
-                'media__link': 'done',
-                'media__date': 'done',
-            }
-            yield item
