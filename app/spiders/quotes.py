@@ -14,7 +14,7 @@ class QuotesSpider(scrapy.Spider):
             item = {
                 'media__title': quote.css('div.media__text > h3.media__title > a::text').extract_first(),
                 'media__link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
-                'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first(),
+                'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
             }
             yield item
         # follow pagination link
@@ -23,3 +23,10 @@ class QuotesSpider(scrapy.Spider):
             valuex = valuex + 1
             next_page_url = response.urljoin(next_page_url)
             yield scrapy.Request(url=next_page_url, callback=self.parse)
+        else:
+            item = {
+                'media__title': valuex,
+                'media__link': 'done',
+                'media__date': 'done'
+            }
+            yield item
