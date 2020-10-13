@@ -11,12 +11,23 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         for quote in response.css('article'):
-            item = {
-                'media__title': quote.css('div.media__text > h3.media__title > a::text').extract_first(),
-                'media__link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
-                'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
-            }
-            yield item
+            title = quote.css('div.media__text > h3.media__title > a::text').extract_first()
+            if ("corona" or "covid" or "sars-cov-2") in title.lower():
+                item = {
+                    'status' : "found", 
+                    'media__title': title,
+                    'media__link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
+                    'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
+                }
+                yield item
+            else:
+                item = {
+                    'status' : "not found", 
+                    'media__title': title,
+                    'media__link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
+                    'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
+                }
+                yield item
         # follow pagination link
         next_page_url = response.xpath("//a[contains(text(),'Next')]/@href").extract_first()
         if next_page_url:
