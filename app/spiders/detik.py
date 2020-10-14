@@ -2,8 +2,8 @@
 import scrapy
 
 
-class QuotesSpider(scrapy.Spider):
-    name = "quotes"
+class DetikSpider(scrapy.Spider):
+    name = "detik"
     allowed_domains = ['news.detik.com']
     start_urls = ['https://news.detik.com/indeks']
 
