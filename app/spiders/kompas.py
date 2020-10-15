@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import re
 
 
 class KompasSpider(scrapy.Spider):
@@ -12,7 +13,8 @@ class KompasSpider(scrapy.Spider):
         self.log('I just visited: ' + response.url)
         for quote in response.css('div.article__grid > div.article__box'):
             title = quote.css('h3 > a::text').extract_first()
-            if ("corona" or "covid" or "sars-cov-2") in title.lower():
+            c_title = re.sub(r'[^\w]', ' ', title)
+            if ("corona" or "covid" or "sars-cov-2") in c_title.lower():
                 item = {
                     'status' : "found", 
                     'title': title,
