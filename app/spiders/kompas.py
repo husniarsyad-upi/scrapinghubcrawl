@@ -2,17 +2,15 @@
 import scrapy
 import re
 
-
 class KompasSpider(scrapy.Spider):
     name = "kompas"
     allowed_domains = ['news.kompas.com']
     start_urls = ['https://news.kompas.com/']
 
-
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         for quote in response.css('div.article__grid > div.article__box'):
-            title = quote.css('h3 > a::text').extract_first()
+            title = str(quote.css('h3 > a::text').extract_first())
             c_title = re.sub(r'[^\w]',' ', title)
             if ("corona" or "covid" or "sars-cov-2") in c_title.lower():
                 item = {
