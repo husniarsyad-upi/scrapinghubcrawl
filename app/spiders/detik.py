@@ -15,17 +15,17 @@ class DetikSpider(scrapy.Spider):
             if ("corona" or "covid" or "sars-cov-2") in title.lower():
                 item = {
                     'status' : "found", 
-                    'media__title': title,
-                    'media__link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
-                    'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
+                    'title': title,
+                    'link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
+                    'date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
                 }
                 yield item
             else:
                 item = {
                     'status' : "not found", 
-                    'media__title': title,
-                    'media__link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
-                    'media__date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
+                    'title': title,
+                    'link': quote.css('div.media__text > h3.media__title > a::attr(href)').extract_first(),
+                    'date': quote.css('div.media__text > div.media__date > span::attr(title)').extract_first()
                 }
                 yield item
         # follow pagination link
