@@ -4,28 +4,28 @@ import re
 
 class KompasSpider(scrapy.Spider):
     name = "kompas"
-    allowed_domains = ['news.kompas.com']
-    start_urls = ['https://news.kompas.com/']
+    allowed_domains = ['indeks.kompas.com']
+    start_urls = ['https://indeks.kompas.com']
 
     def parse(self, response):
         self.log('I just visited: ' + response.url)
-        for quote in response.css('div.article__grid > div.article__box'):
-            title = str(quote.css('h3 > a::text').extract_first())
+        for quote in response.css('div.article__list'):
+            title = str(quote.css('div.article__list__title > h3 > a::text').extract_first())
             c_title = re.sub(r'[^\w]',' ', title)
             if ("corona" or "covid" or "sars-cov-2") in c_title.lower():
                 item = {
                     'status' : "found", 
                     'title': title,
-                    'link': quote.css('h3 > a::attr(href)').extract_first(),
-                    'date': quote.css('div.article__date::text').extract_first()
+                    'link': quote.css('div.article__list__title > h3 > a::attr(href)').extract_first(),
+                    'date': quote.css('div.article__list__info > div.article__date::text').extract_first()
                 }
                 yield item
             else:
                 item = {
                     'status' : "not found", 
                     'title': title,
-                    'link': quote.css('h3 > a::attr(href)').extract_first(),
-                    'date': quote.css('div.article__date::text').extract_first()
+                    'link': quote.css('div.article__list__title > h3 > a::attr(href)').extract_first(),
+                    'date': quote.css('div.article__list__info > div.article__date::text').extract_first()
                 }
                 yield item
         # follow pagination link
