@@ -12,7 +12,16 @@ class DetikSpider(scrapy.Spider):
         self.log('I just visited: ' + response.url)
         for quote in response.css('article'):
             title = quote.css('div.media__text > h3.media__title > a::text').extract_first()
-            if ("corona" or "covid" or "sars-cov-2") in title.lower():
+            cstats = 0
+            
+            if "corona" in title.lower():
+                cstats = 1
+            else if "covid" in title.lower():
+                cstats = 1
+            else if "sars-cov-2" in title.lower():
+                cstats = 1
+
+            if cstats == 1:
                 item = {
                     'status' : "found", 
                     'title': title,
