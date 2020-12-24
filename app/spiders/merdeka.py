@@ -13,7 +13,7 @@ class MerdekaSpider(scrapy.Spider):
         for quote in response.css('div#mdk-news-list_m > ul > li'):
             title = quote.css('a::text').extract_first().strip()
             cstats = 0
-            
+
             if "corona" in title.lower():
                 cstats = 1
             elif "covid" in title.lower():
@@ -21,12 +21,13 @@ class MerdekaSpider(scrapy.Spider):
             elif "sars-cov-2" in title.lower():
                 cstats = 1
 
+            news_url = quote.css('b.mdk-time::text').extract_first()
             if cstats == 1:
                 item = {
                     'status' : "found", 
                     'title': title,
                     'link': quote.css('a::attr(href)').extract_first(),
-                    'date': quote.css('b.mdk-time::text').extract_first()
+                    'date': response.urljoin(news_url)
                 }
                 yield item
             else:
@@ -34,7 +35,7 @@ class MerdekaSpider(scrapy.Spider):
                     'status' : "not found", 
                     'title': title,
                     'link': quote.css('a::attr(href)').extract_first(),
-                    'date': quote.css('b.mdk-time::text').extract_first()
+                    'date': response.urljoin(news_url)
                 }
                 yield item
         # follow pagination link
