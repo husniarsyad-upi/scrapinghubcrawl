@@ -10,6 +10,7 @@ class KompasSpider(scrapy.Spider):
     def parse(self, response):
         self.log('I just visited: ' + response.url)
         for quote in response.css('div.article__list'):
+            title = str(quote.css('div.article__list__title > h3 > a::text').extract_first().encode("utf-8"))
             cstats = 0
             
             if "corona" in title.lower():
