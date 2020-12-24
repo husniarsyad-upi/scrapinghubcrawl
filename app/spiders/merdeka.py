@@ -21,21 +21,21 @@ class MerdekaSpider(scrapy.Spider):
             elif "sars-cov-2" in title.lower():
                 cstats = 1
 
-            news_url = quote.css('b.mdk-time::text').extract_first()
+            news_url = quote.css('a::attr(href)').extract_first()
             if cstats == 1:
                 item = {
                     'status' : "found", 
                     'title': title,
-                    'link': quote.css('a::attr(href)').extract_first(),
-                    'date': response.urljoin(news_url)
+                    'link': response.urljoin(news_url),
+                    'date': quote.css('b.mdk-time::text').extract_first()
                 }
                 yield item
             else:
                 item = {
                     'status' : "not found", 
                     'title': title,
-                    'link': quote.css('a::attr(href)').extract_first(),
-                    'date': response.urljoin(news_url)
+                    'link': response.urljoin(news_url),
+                    'date': quote.css('b.mdk-time::text').extract_first()
                 }
                 yield item
         # follow pagination link
