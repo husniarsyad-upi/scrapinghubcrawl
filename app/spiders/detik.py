@@ -13,12 +13,12 @@ class DetikSpider(scrapy.Spider):
         for quote in response.css('article'):
             title = quote.css('div.media__text > h3.media__title > a::text').extract_first()
             cstats = 0
-            
+
             if "corona" in title.lower():
                 cstats = 1
-            else if "covid" in title.lower():
+            elif "covid" in title.lower():
                 cstats = 1
-            else if "sars-cov-2" in title.lower():
+            elif "sars-cov-2" in title.lower():
                 cstats = 1
 
             if cstats == 1:
