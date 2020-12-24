@@ -12,7 +12,16 @@ class MerdekaSpider(scrapy.Spider):
         self.log('I just visited: ' + response.url)
         for quote in response.css('div#mdk-news-list_m > ul > li'):
             title = quote.css('a::text').extract_first().strip()
-            if ("corona" or "covid" or "sars-cov-2") in title.lower():
+            cstats = 0
+            
+            if "corona" in title.lower():
+                cstats = 1
+            elif "covid" in title.lower():
+                cstats = 1
+            elif "sars-cov-2" in title.lower():
+                cstats = 1
+
+            if cstats == 1:
                 item = {
                     'status' : "found", 
                     'title': title,
